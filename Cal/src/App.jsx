@@ -1,39 +1,35 @@
-import React from "react";
-import './App.css';
+import React, { useState } from "react";
+import MathOperations from "./components/MathOperations";
 import Result from "./components/Result";
+import './App.css';
+import Funtions from "./components/Functions";
+import Numbers from "./components/Numbers";
 
 const App = () => {
-    console.log("Render the application");
+
+    let [stack, setStack] = useState("");
     return (
         <main className="react-calculator">
-            <Result value={0} text="" />
-            <div className="numbers">
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-                <button>0</button>
-            </div>
-            <div className="functions">
-                <button>
-                    clear
-                </button>
-                <button>
-                    r
-                </button>
-            </div>
-            <div className="math-operations">
-                <button>+</button>
-                <button>-</button>
-                <button>*</button>
-                <button>/</button>
-                <button>=</button>
-                </div>
+            <Result value={stack} />
+            <Numbers onClickNumber={number => {
+                setStack(`${stack}${number}`)
+            }
+            } />
+            <Funtions OnDelete={deleted => {
+                if (stack.length > 0) {
+                    const newStact = stack.substring(0, stack.length - 1)
+                    setStack(newStact)
+                }
+            }}
+                onContentClear={clear => setStack("")} />
+            <MathOperations
+                onClickOperation={operation => {
+                    setStack(`${stack}${operation}`)
+                }
+                }
+                onClickEquals={equals => {
+                    setStack(`${stack}${equals}`)
+                }} />
         </main>)
 }
 
